@@ -1,9 +1,8 @@
+PLUGIN_NAME = ttl
 
-PLUGIN_NAME = TTL
+HEADERS = ttl.h
 
-HEADERS = TTL.h
-
-SOURCES = TTL.cpp 
+SOURCES = ttl.cpp 
 
 LIBS = 
 
