@@ -1,8 +1,9 @@
-PLUGIN_NAME = ttl-pulses
 
-HEADERS = ttl-pulses.h
+PLUGIN_NAME = TTL
 
-SOURCES = ttl-pulses.cpp 
+HEADERS = TTL.h
+
+SOURCES = TTL.cpp 
 
 LIBS = 
 

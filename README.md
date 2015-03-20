@@ -3,11 +3,9 @@
 **Requirements:** None  
 **Limitations:** None  
 
-![TTL GUI](ttl-pulses.png)
+![EDIT IMAGE LINK](http://www.rtxi.org/wp-content/uploads/2011/08/ttl.png)
 
-<!--start-->
 This module generates a train of TTL pulses (0-5 V square wave). It can be connected to either an analog or digital output channel to trigger external hardware. You should check the voltage range of your DAQ card to make sure that it can handle 0-5 V.
-<!--end-->
 
 ####Output Channels
 
