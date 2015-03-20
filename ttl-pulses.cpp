@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include <ttl.h>
+#include <ttl-pulses.h>
 #include <QtGui>
 
 extern "C" Plugin::Object *createRTXIPlugin(void)
