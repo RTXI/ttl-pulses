@@ -1,4 +1,4 @@
-PLUGIN_NAME = ttl-pulses
+PLUGIN_NAME = ttl_pulses
 
 HEADERS = ttl-pulses.h
 
