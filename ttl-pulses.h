@@ -37,8 +37,9 @@ private:
     double ttlFreq; // Hz
     double ttlDelay; // s
     double maxtrials;
-    int trial;
+    double trial;
     int idx;
+    double currentTTL;
     std::vector<double> stimTTL;
 
 private slots:
