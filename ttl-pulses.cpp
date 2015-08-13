@@ -67,7 +67,7 @@ TTL::TTL(void) : DefaultGUIModel("TTL Pulses", ::vars, ::num_vars),
 	initParameters();
 	update(INIT);
 	refresh();
-	QTimer::singleShot(0, this, SLOT(resizeMe()));
+	resizeMe();
 }
 
 TTL::~TTL(void) {}
