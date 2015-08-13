@@ -17,7 +17,6 @@
  */
 
 #include <ttl-pulses.h>
-#include <QtGui>
 
 extern "C" Plugin::Object *createRTXIPlugin(void)
 {
@@ -43,7 +42,7 @@ static DefaultGUIModel::variable_t vars[] = {
 		DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,
 	},
 	{
-		"Repeat", "Number of trials", DefaultGUIModel::PARAMETER
+		"Repeat (#)", "Number of trials", DefaultGUIModel::PARAMETER
 			| DefaultGUIModel::DOUBLE,
 	},
 	{
@@ -92,7 +91,7 @@ void TTL::update(DefaultGUIModel::update_flags_t flag)
 {
 	switch (flag) {
 		case INIT:
-			setParameter("Repeat", QString::number(maxtrials)); // initially 1
+			setParameter("Repeat (#)", QString::number(maxtrials)); // initially 1
 			setParameter("TTL Duration (s)", QString::number(ttlDuration)); // initially 1
 			setParameter("TTL Pulses (#)", QString::number(ttlNumPulses)); // initially 1
 			setParameter("TTL Freq (Hz)", QString::number(ttlFreq)); // initially 1
@@ -112,7 +111,7 @@ void TTL::update(DefaultGUIModel::update_flags_t flag)
 				ttlDelay = getParameter("TTL Delay (s)").toDouble();
 				makeTTL();
 			}
-			maxtrials = getParameter("Repeat").toDouble();
+			maxtrials = getParameter("Repeat (#)").toDouble();
 			makeTTL();
 			break;
 

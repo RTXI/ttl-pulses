@@ -1,4 +1,4 @@
-###TTL
+###TTL Pulses
 
 **Requirements:** None  
 **Limitations:** None  
@@ -19,4 +19,4 @@ This module generates a train of TTL pulses (0-5 V square wave). It can be conne
 2. TTL Pulses (#): number of TTL pulses within a single train
 3. TTL Freq (Hz): frequency of pulses measured between pulse onsets
 4. TTL Delay (s): time to wait between repeated trials of the same train of pulses
-5. Repeat: number of times to repeat the stimulus
+5. Repeat (#): number of times to repeat the stimulus
