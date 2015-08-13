@@ -55,7 +55,10 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-TTL::TTL(void) : DefaultGUIModel("TTL", ::vars, ::num_vars), dt(RT::System::getInstance()->getPeriod() * 1e-9), ttlDuration(.25), ttlNumPulses(1), ttlFreq(1), ttlDelay(.5), maxtrials(1), trial(0), idx(0)
+TTL::TTL(void) : DefaultGUIModel("TTL Pulses", ::vars, ::num_vars), 
+                 dt(RT::System::getInstance()->getPeriod() * 1e-9), 
+                 ttlDuration(.25), ttlNumPulses(1), ttlFreq(1), ttlDelay(.5), 
+                 maxtrials(1), trial(0), idx(0)
 {
 	setWhatsThis(
 			"<p><b>TTL:</b><br>This module outputs a train of TTL pulses (0-5V square wave). This can"
