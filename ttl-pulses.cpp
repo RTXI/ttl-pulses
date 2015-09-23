@@ -126,6 +126,7 @@ void TTL::update(DefaultGUIModel::update_flags_t flag)
 		case PERIOD:
 			dt = RT::System::getInstance()->getPeriod() * 1e-9; // sec
 			idx = 0;
+			update(MODIFY);
 			break;
 
 		default:
