@@ -70,28 +70,23 @@ TTL::TTL(void) : DefaultGUIModel("TTL Pulses", ::vars, ::num_vars),
 	resizeMe();
 }
 
-TTL::~TTL(void)
-{
-}
+TTL::~TTL(void) {}
 
 void TTL::execute(void)
 {
 	if (trial < maxtrials) { // run trial
-		if (idx < stimTTL.size())
-		{
+		if (idx < stimTTL.size()) {
 			output(0) = stimTTL[idx++];
 			if (stimTTL[idx] < stimTTL.at(idx-1))
 				currentTTL++;
-		}
-		else
-		{
+		} else {
 			trial++;
 			idx = 0;
 		}
 	} // end single trial
-	else
-	{ // all trials are done, send signal to holding current module, and pause
+	else { // all trials are done, send signal to holding current module, and pause
 		output(0) = 0;
+		pause(true);
 	} // end protocol
 }
 
