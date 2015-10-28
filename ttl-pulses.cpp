@@ -86,7 +86,7 @@ void TTL::execute(void)
 	} // end single trial
 	else { // all trials are done, send signal to holding current module, and pause
 		output(0) = 0;
-		pause(true);
+		pauseButton->setChecked(true);
 	} // end protocol
 }
 
