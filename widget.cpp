@@ -62,25 +62,26 @@ void ttl_pulses::Component::execute()
       getValue<double>(TTL_DURATION) * RT::OS::SECONDS_TO_NANOSECONDS);
   const auto ttlperiod_ns = static_cast<uint64_t>(RT::OS::SECONDS_TO_NANOSECONDS/getValue<double>(TTL_FREQUENCY));
   auto ttl_current_pulse = getValue<uint64_t>(CURRENT_PULSE);
-  const bool on = dt > ttldelay_ns && (dt - ttldelay_ns) < (ttlduration_ns + ttlperiod_ns * (ttl_current_pulse-1));
+  const bool on = dt > ttldelay_ns && (dt - ttldelay_ns) <= (ttlduration_ns + (ttlperiod_ns * (ttl_current_pulse-1)));
   switch (this->getState()) {
     case RT::State::EXEC:
       writeoutput(0, voltages[static_cast<size_t>(on)]);
-      if(dt > ttlperiod_ns*ttl_current_pulse) {
-        setValue<uint64_t>(CURRENT_PULSE, ttl_current_pulse++);
+      if(dt > (ttlperiod_ns*ttl_current_pulse + ttldelay_ns)) {
+        setValue<uint64_t>(CURRENT_PULSE, ttl_current_pulse+1);
+        ttl_current_pulse++;
       }
-      if(dt > (ttlperiod_ns*ttl_current_pulse + ttldelay_ns)){
+      if(ttl_current_pulse > getValue<uint64_t>(TTL_PULSES)){
         t_zero = time;
         setValue<uint64_t>(CURRENT_TRIAL, getValue<uint64_t>(CURRENT_TRIAL) + 1);
-        setValue<uint64_t>(CURRENT_PULSE, 0);
+        setValue<uint64_t>(CURRENT_PULSE, 1);
+      }
+      if(getValue<uint64_t>(CURRENT_TRIAL) > getValue<uint64_t>(REPEAT)){
+        setState(RT::State::PAUSE);
       }
       break;
     case RT::State::INIT:
     case RT::State::MODIFY:
       writeoutput(0, 0);
-      setValue<uint64_t>(CURRENT_PULSE, 0);
-      setValue<uint64_t>(CURRENT_TRIAL, 0);
-      t_zero = time;
       setState(RT::State::PAUSE);
       break;
     case RT::State::PERIOD:
@@ -92,6 +93,9 @@ void ttl_pulses::Component::execute()
       break;
     case RT::State::UNPAUSE:
       writeoutput(0, 0);
+      t_zero = time;
+      setValue<uint64_t>(CURRENT_PULSE, 1);
+      setValue<uint64_t>(CURRENT_TRIAL, 1);
       setState(RT::State::EXEC);
       break;
     default:

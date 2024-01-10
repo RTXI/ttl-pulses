@@ -81,14 +81,14 @@ inline  std::vector<Widgets::Variable::Info> get_default_vars()
       "Current Trial", 
       "Current trial being executed", 
       Widgets::Variable::STATE,
-      uint64_t{0}
+      uint64_t{1}
     },
     {
       CURRENT_PULSE,
       "Current Pulse", 
       "Current pulse being executed", 
       Widgets::Variable::STATE,
-      uint64_t{0}
+      uint64_t{1}
     }
   };
 }
