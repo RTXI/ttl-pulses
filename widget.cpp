@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "widget.hpp"
 
+#include <rtxi/rtos.hpp>
+
 ttl_pulses::Plugin::Plugin(Event::Manager* ev_manager)
     : Widgets::Plugin(ev_manager, std::string(ttl_pulses::MODULE_NAME))
 {
@@ -26,7 +28,7 @@ ttl_pulses::Plugin::Plugin(Event::Manager* ev_manager)
 
 ttl_pulses::Panel::Panel(QMainWindow* main_window, Event::Manager* ev_manager)
     : Widgets::Panel(
-        std::string(ttl_pulses::MODULE_NAME), main_window, ev_manager)
+          std::string(ttl_pulses::MODULE_NAME), main_window, ev_manager)
 {
   setWhatsThis(
       "<p><b>TTL:</b><br>This module outputs a train of TTL pulses (0-5V "
@@ -60,22 +62,26 @@ void ttl_pulses::Component::execute()
       getValue<double>(TTL_DELAY) * RT::OS::SECONDS_TO_NANOSECONDS);
   const auto ttlduration_ns = static_cast<uint64_t>(
       getValue<double>(TTL_DURATION) * RT::OS::SECONDS_TO_NANOSECONDS);
-  const auto ttlperiod_ns = static_cast<uint64_t>(RT::OS::SECONDS_TO_NANOSECONDS/getValue<double>(TTL_FREQUENCY));
+  const auto ttlperiod_ns = static_cast<uint64_t>(
+      RT::OS::SECONDS_TO_NANOSECONDS / getValue<double>(TTL_FREQUENCY));
   auto ttl_current_pulse = getValue<uint64_t>(CURRENT_PULSE);
-  const bool on = dt > ttldelay_ns && (dt - ttldelay_ns) <= (ttlduration_ns + (ttlperiod_ns * (ttl_current_pulse-1)));
+  const bool on = dt > ttldelay_ns
+      && (dt - ttldelay_ns)
+          <= (ttlduration_ns + (ttlperiod_ns * (ttl_current_pulse - 1)));
   switch (this->getState()) {
     case RT::State::EXEC:
       writeoutput(0, voltages[static_cast<size_t>(on)]);
-      if(dt > (ttlperiod_ns*ttl_current_pulse + ttldelay_ns)) {
-        setValue<uint64_t>(CURRENT_PULSE, ttl_current_pulse+1);
+      if (dt > (ttlperiod_ns * ttl_current_pulse + ttldelay_ns)) {
+        setValue<uint64_t>(CURRENT_PULSE, ttl_current_pulse + 1);
         ttl_current_pulse++;
       }
-      if(ttl_current_pulse > getValue<uint64_t>(TTL_PULSES)){
+      if (ttl_current_pulse > getValue<uint64_t>(TTL_PULSES)) {
         t_zero = time;
-        setValue<uint64_t>(CURRENT_TRIAL, getValue<uint64_t>(CURRENT_TRIAL) + 1);
+        setValue<uint64_t>(CURRENT_TRIAL,
+                           getValue<uint64_t>(CURRENT_TRIAL) + 1);
         setValue<uint64_t>(CURRENT_PULSE, 1);
       }
-      if(getValue<uint64_t>(CURRENT_TRIAL) > getValue<uint64_t>(REPEAT)){
+      if (getValue<uint64_t>(CURRENT_TRIAL) > getValue<uint64_t>(REPEAT)) {
         setState(RT::State::PAUSE);
       }
       break;
